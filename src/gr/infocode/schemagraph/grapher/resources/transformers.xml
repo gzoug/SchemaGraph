@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemaGraphers>
+   <transformer id="detailed" resource="entities-detailed.xsl" result-extension="dot" />
+   <transformer id="er" resource="entities-ER.xsl" result-extension="dot" />
+   <transformer id="plain" resource="entities-plain.xsl" result-extension="dot" />
+</schemaGraphers>

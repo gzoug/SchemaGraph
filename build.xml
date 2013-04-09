@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+ <!--
+ to debug, just call like that
+ java -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y ...............
+ -->
+
+<project name="SchemaGraph" default="build" basedir=".">
+
+    
+    <property name="src.dir" location="src" />
+    <property name="lib-ext.dir" location="lib-ext" /> <!-- holder of 3rd-party libraries to copy in dist\lib -->
+    <property name="lib-int.dir" location="lib-int" /> <!-- holder of other libraries of ours, to extract into resulting .jar -->
+    <property name="build.dir" location="build" />
+    <property name="release.dir" value="release" />
+    <property name="doc.dir" location="doc" />
+    <property name="dist.dir" location="dist" />
+    <property name="dist.jar" value="${ant.project.name}.jar" />
+    <property name="entryPoint" value="gr.infocode.schemagraph.exporter.Exporter" />
+    <property name="author.name" value="George M. Zouganelis (george.zouganelis@gmail.com)" />
+    <property name="author.website" value="www.infocode.gr" />
+
+    <!-- internal libraries - they will be merged withing then final .jar  -->
+    <path id="libraries-int">
+        <fileset dir="${lib-int.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+    
+    <!-- 3rd party libraries - they will be just copied to dist folder -->
+    <path id="libraries-ext">  
+        <fileset dir="${lib-ext.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+    
+    <target name="fetch.libraries" description="Fetch needed libraries (external or internal)">
+        <!-- internal -->
+        <!--
+        <copy todir="${lib-int.dir}">
+            <fileset dir="../releases/libs/zklib">
+               <include name="zklib.jar"/>    
+            </fileset>
+        </copy>
+        -->
+        <!-- external -->
+        <!--
+        <copy todir="${lib-int.dir}">
+            <fileset dir="../releases/libs/zklib">
+               <include name="zklib.jar"/>    
+            </fileset>
+        </copy>
+        -->
+    </target>
+    
+   
+    <!-- BUILD task -->
+    <target name="build" description="Compile the application">
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${dist.dir}" />
+        <antcall target="fetch.libraries" />
+        <javac destdir="${build.dir}" 
+            srcdir="${src.dir}" debug="true" 
+            debuglevel="lines,vars,source" 
+            source="1.6" target="1.6" 
+            encoding="8859_7" includeantruntime="false">
+            <classpath>
+                <path refid="libraries-int" />
+                <path refid="libraries-ext" />
+            </classpath>
+        </javac>
+
+        <copy todir="${build.dir}" flatten="false">
+            <fileset dir="${src.dir}">
+                <include name="**/resources/*" />
+            </fileset>
+        </copy>
+
+        <!--
+        <unzip dest="${build.dir}">
+            <fileset dir="${lib-int.dir}">
+                <include name="**/*.jar" />
+            </fileset>
+        </unzip>
+		-->
+		
+    </target>
+
+
+
+    <!-- DIST Creation -->
+    <target name="dist" depends="build" description="Copy the distribution package">
+        <antcall target="make.jar" />
+        <antcall target="javadoc" />
+        <copy todir="${dist.dir}" flatten="false">
+            <fileset dir="${build.dir}">
+                <include name="${dist.jar}" />
+            </fileset>
+        </copy>
+        <copy todir="${dist.dir}/lib" flatten="true">
+            <fileset dir="${lib-ext.dir}">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- RELEASE Creation -->
+    <target name="release" depends="dist" description="Release the distribution package">
+        <copy todir="${release.dir}" flatten="false">
+            <fileset dir="${dist.dir}">
+                <include name="${dist.jar}" />
+            </fileset>
+        </copy>
+        <copy todir="${release.dir}/lib" flatten="true">
+            <fileset dir="${lib-ext.dir}">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+    </target>
+
+    
+    <!-- JAR CREATION -->
+    <!-- prepare manifest classpath for external libraries - this is wrong though !-->
+    <pathconvert property="manifest.classpath" pathsep=" ">
+        <path refid="libraries-ext" />
+        <mapper>
+            <chainedmapper>
+                <flattenmapper />
+                <globmapper from="*.jar" to="lib/*.jar" />
+            </chainedmapper>
+        </mapper>
+    </pathconvert>
+
+    <target name="make.jar" description="Create the distribution package">
+        <jar destfile="${dist.dir}/${dist.jar}" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Created-By" value="${author.name}" />
+                <attribute name="Main-Class" value="${entryPoint}" />
+                <attribute name="Class-Path" value="${manifest.classpath}" />
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- JAVADOC -->
+    <target name="javadoc">
+        <mkdir dir="${doc.dir}" />
+        <javadoc author="yes" additionalparam="-quiet" charset="UTF-8" destdir="${doc.dir}" docencoding="UTF-8" encoding="UTF-8" failonerror="true">
+            <fileset dir="${src.dir}">
+                <filename name="**/*.java"/>
+            </fileset>
+        </javadoc>
+    </target>
+
+
+    <!-- CLEAN build files -->
+    <target name="clean" description="Clean build files">
+        <delete dir="${build.dir}" />
+        <delete dir="${dist.dir}" />
+        <delete dir="${doc.dir}" />
+    </target>
+</project>

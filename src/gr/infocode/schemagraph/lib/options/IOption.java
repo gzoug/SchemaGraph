@@ -1,0 +1,59 @@
+/*
+Project: SchemaGraph
+
+Copyright (c) 2007-2013, George Zouganelis (george.zouganelis@gmail.com)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+   
+   3. Neither the name of George Zouganelis nor the names of contributors may 
+      be used to endorse or promote products derived from this software without 
+      specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE GEORGE ZOUGANELIS AND CONTRIBUTORS ``AS IS'' 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+IN NO EVENT SHALL GEORGE ZOUGANELIS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+package gr.infocode.schemagraph.lib.options;
+
+import java.util.List;
+
+public interface IOption {
+
+    public abstract boolean isDefined();
+    public abstract void setDefined(boolean isDefined);
+    public abstract boolean isSet();
+    public abstract List<String> getValues();
+    public abstract String getValue(int index);
+    public abstract void setValues(List<String> values);
+    public abstract void addValue(String value);
+    public abstract String getShortOpt();
+    public abstract void setShortOpt(String shortOpt);
+    public abstract String getLongOpt();
+    public abstract void setLongOpt(String longOpt);
+    public abstract boolean isMandatory();
+    public abstract void setMandatory(boolean isMandatory);
+    public abstract Integer getParamCount();
+    public abstract void setParamCount(Integer paramCount);
+    public abstract String getHelpString();
+    public abstract void setHelpString(String helpString);
+    public abstract String getParamString();
+    public abstract void setParamString(String paramString);
+    public abstract boolean matches(String option);
+}

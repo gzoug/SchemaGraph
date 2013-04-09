@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config>
+
+  <!-- 
+  # ODBC Example 
+  -->
+  <db escapenames="no" id="db_odbc">
+    <driver>
+      <class>sun.jdbc.odbc.JdbcOdbcDriver</class>
+      <connector>jdbc:odbc</connector>
+    </driver>
+    <database>database</database>
+    <username>userid</username>
+    <password>userpass</password>
+  </db>
+
+  <!-- 
+  # MySQL Example 
+  # http://www.mysql.com/downloads/connector/j/
+  # Tested with mysql-connector-java-5.1.6-bin.jar 
+  -->
+  <db escapenames="no" id="db_mysql">
+    <driver>
+      <class>com.mysql.jdbc.Driver</class>
+      <connector>jdbc:mysql</connector>
+    </driver>
+    <database>//server:3306/database</database>
+    <username>userid</username>
+    <password>userpass</password>
+  </db>
+  
+  <!-- 
+  # Microsoft SQL Server jTDS Driver Example 
+  # http://http://jtds.sourceforge.net
+  # Tested with jDTS version 1.2.2 
+  -->
+  <db escapenames="no" id="db">
+    <driver>
+      <class>net.sourceforge.jtds.jdbc.Driver</class>
+      <connector>jdbc:jtds:sqlserver</connector>
+    </driver>
+    <database>//server:1433/database;tds=8.0</database>
+    <username>userid</username>
+    <password>userpass</password>
+  </db>
+
+  <!-- 
+  # Interbase / Firebird SQL Example 
+  # http://www.firebirdsql.org/en/jdbc-driver
+  # Tested with Jaybird version 2.1.3
+  -->
+  <db escapenames="yes" id="db_firebird">
+    <driver>
+      <class>org.firebirdsql.jdbc.FBDriver</class>
+      <connector>jdbc:firebirdsql</connector>
+    </driver>
+    <database>192.168.0.110/3050:database_alias</database>
+    <username>userid</username>
+    <password>userpas</password>
+  </db>
+
+</config>
+
