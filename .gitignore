@@ -1,0 +1,43 @@
+# use glob syntax.
+syntax: glob
+
+# Backup and Temp files
+~$*
+*~
+*.bak
+*.off
+*.old
+
+# System files
+.DS_Store
+[Tt]humbs.db
+
+# building
+target/
+bin/
+[Bb]uild/
+[Dd]ist/
+[Dd]ebug/
+[Rr]elease/
+[Oo]ut/
+
+# subversion
+.svn
+
+# Java
+*.class
+
+# Eclipse
+.settings/
+
+# ====================
+# Application specific
+
+# ignore external libraries
+lib-ext/*
+!lib-ext/README.md
+
+# generated documentation
+doc/
+
+
